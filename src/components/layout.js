@@ -67,9 +67,16 @@ class Layout extends React.Component {
           <main>{children}</main>
         </div>
         <Footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
+          <p>
+            © {new Date().getFullYear()}, Built with
+            {` `}
+            <a href="https://www.gatsbyjs.org">Gatsby</a>
+          </p>
+          <p>
+            {` `}
+            {`People vector created by roserodionova at `}
+            <a href="https://www.freepik.com/free-photos-vectors/people">www.freepik.com</a>
+          </p>
         </Footer>
       </Wrapper>
     )

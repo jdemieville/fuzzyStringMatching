@@ -12,24 +12,22 @@ class IndexPage extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO
-          title="Home"
+          title="Fuzzy String Matching Home"
           keywords={[`fuzzy`, `gatsby`, `string`, `matching`]}
         />
-        <img style={{ margin: 0 }} src="./GatsbyScene.svg" alt="Gatsby Scene" />
+        <img style={{ margin: 0 }} src="https://image.freepik.com/free-vector/online-dating-couple-love-app-phone-it-is-match-online-dating_80328-177.jpg" alt="Matching" />
         <h1>
-          Hey everyone!{" "}
+          Hey fellow string searching enthusiasts!{" "}
           <span role="img" aria-label="wave emoji">
             👋
           </span>
         </h1>
-        <p>Welcome to your new Gatsby website. You are on your home page.</p>
         <p>
-          This starter comes out of the box with styled components and Gatsby's
-          default starter blog running on Netlify CMS.
+          This site is built to assess the performance of various approximate string matching algorithms aka fuzzy string searching.
         </p>
-        <p>Now go build something great!</p>
-        <Link to="/blog/">
-          <Button marginTop="35px">Go to Blog</Button>
+        <p>Click to evaluate two strings!</p>
+        <Link to="/evaluation/">
+          <Button marginTop="35px">Go to String Evaluation</Button>
         </Link>
       </Layout>
     )
