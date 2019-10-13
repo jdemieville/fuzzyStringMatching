@@ -44,5 +44,8 @@ const levenshteinDistance = (str1, str2) => {
         // number of alterations needed from last entry in matrix
         altsNeeded = matrix[str1.length][str2.length];
     }
-    return altsNeeded;
+    let total;
+    str1.length > str2.length ? total = str1.length : total = str2.length;
+    // percentage of confidence
+    return (total-altsNeeded)/total;
 }
