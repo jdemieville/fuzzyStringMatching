@@ -2,7 +2,6 @@ import React from "react"
 import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
-import SEO from "../components/seo"
 import Button from "../components/button"
 import jaroWinklerDistance from "../logic/jaroWinklerDistance";
 import levenshteinDistance from "../logic/levenshteinDistance";
@@ -26,41 +25,48 @@ class Evaluation extends React.Component {
       }
       handleSubmit = event => {
         event.preventDefault()
-        alert(`first ${this.state.firstString} second ${this.state.secondString}!`)
+        this.setState({
+            levenResults: levenshteinDistance(this.state.firstString, this.state.secondString),
+            trigramResults: trigramDistance(this.state.firstString, this.state.secondString),
+            jaroWinkResults: jaroWinklerDistance(this.state.firstString, this.state.secondString)
+        })
       }
     render() {
-    const { data } = this.props
-    const siteTitle = data.site.siteMetadata.title
-
-    return (
-      <Layout location={this.props.location}>
-      <h1>Enter strings to compare</h1>
-        <form onSubmit={this.handleSubmit}>
-            <label>
-                First string: 
-                <input 
-                    type='text' 
-                    name='firstString'
-                    value={this.state.firstString}
-                    onChange={this.handleInputChange}
-                ></input>
-            </label>
-            <div></div>
-            <label>
-                Second string: 
-                <input 
-                    type='text' 
-                    name='secondString'
-                    value={this.state.secondString}
-                    onChange={this.handleInputChange}
-                ></input>
-            </label>
-            <button type='submit'>Evaluate</button>
+        return (
+        <Layout location={this.props.location}>
+        <h1>Enter strings to compare</h1>
+            <form onSubmit={this.handleSubmit}>
+                <label>
+                    First string: 
+                    <input 
+                        type='text' 
+                        name='firstString'
+                        value={this.state.firstString}
+                        onChange={this.handleInputChange}
+                    ></input>
+                </label>
+                <div></div>
+                <label>
+                    Second string: 
+                    <input 
+                        type='text' 
+                        name='secondString'
+                        value={this.state.secondString}
+                        onChange={this.handleInputChange}
+                    ></input>
+                </label>
+                <button type='submit'>Evaluate</button>
+            </form>
             <h1>Results</h1>
-        </form>
-      </Layout>
-    )
-  }
+            <p>Levenshtein Results: {this.state.levenResults}</p>
+            <p>Trigram Results: {this.state.trigramResults}</p>
+            <p>Jaro-Winkler Results: {this.state.jaroWinkResults}</p>
+            <Link to="/">
+                <Button marginTop="35px">Go home</Button>
+            </Link>
+        </Layout>
+        )
+    }
 }
 
 export default Evaluation

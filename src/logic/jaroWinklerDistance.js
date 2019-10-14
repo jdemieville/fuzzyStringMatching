@@ -2,7 +2,7 @@
 
 // minimal number of transpositions needed for strings to match, giving more favorable rankings to strings with similar prefixes
 
-const jaroWinklerDistance = (str1, str2) => {
+export default function jaroWinklerDistance (str1, str2) {
     let matchingChar = 0;
     let transpositions;
     let confidence;
