@@ -1,7 +1,7 @@
 // Levenshtein Algorithm
 
 // Determine distance between strings based on necessary edits of one to equal the other
-const levenshteinDistance = (str1, str2) => {
+export default function levenshteinDistance (str1, str2) {
     let altsNeeded;
     let matrix = [];
     // if both strings are empty, return 1, as the strings match
