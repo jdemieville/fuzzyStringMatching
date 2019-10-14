@@ -25,7 +25,7 @@ const jaroWinklerDistance = (str1, str2) => {
             let low = (index >= range) ? index - range : 0;
             let high = (index + range <= str2.length) ? (index + range) : (str2.length -1);
 
-            for (index2 = low; index2 <= high; index2++){
+            for (let index2 = low; index2 <= high; index2++){
                 if(str1Matches[index] !== true && str2Matches[index2] !== true && str1[index] === str2[index2]){
                     ++matchingChar;
                     str1Matches[index] = true;
@@ -49,10 +49,11 @@ const jaroWinklerDistance = (str1, str2) => {
                         matchIndex = index2 + 1;
                         break;
                     }
+                    if(str1[index] !== str2[index2]){
+                        ++numTrans;
+                    }
                 }
-                if(str1[index] !== str2[index2]){
-                    ++numTrans;
-                }
+
             }
         }
         let weight = ((matchingChar/str1.length) + (matchingChar/str2.length) + (matchingChar - (numTrans/2)) / matchingChar) / 3;
