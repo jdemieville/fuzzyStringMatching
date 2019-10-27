@@ -7,7 +7,8 @@ export default function jaroWinklerDistance (str1, str2) {
     // map used to enforce unique key of characters
     let str1Map = new Map();
     let transpositions = 0;
-    let confidence = 0;
+    // confidence[0] = jaro; conficence[1] = jaroWinkler
+    let confidence = [0,0];
     let jaroDistance = 0;
     let jaroWinkler = 0;
     let constantFactor = 0.1;
@@ -15,13 +16,13 @@ export default function jaroWinklerDistance (str1, str2) {
 
     // if both are empty, return confidence of 1 (match)
     if(str1.length === 0 && str2.length === 0){
-        confidence = 1;
+        confidence = [1,1];
     // if one is empty, but not the other, return confidence of 0 (non-match)
     } else if(str1.length === 0 || str2.length === 0) {
-        confidence = 0;
+        confidence = [0,0];
     // if strings match, return confidence of 1 (match)
     } else if(str1 === str2){
-        confidence = 1;
+        confidence = [1,1];
     } else {
         for(let index1 = 0; index1 < str1.length; index1++){
             // fill map and calculate transpositions
@@ -62,7 +63,7 @@ export default function jaroWinklerDistance (str1, str2) {
         // jaroDistance + ((prefixLength*constantFactor)*(1-jaroDistance))
         jaroWinkler = jaroDistance + ((prefixLength*constantFactor)*(1-jaroDistance));
 
-        confidence = jaroWinkler;
+        confidence = [jaroDistance, jaroWinkler];
     }
 
     return confidence;
