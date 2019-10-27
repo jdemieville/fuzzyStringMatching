@@ -15,6 +15,8 @@ class Evaluation extends React.Component {
         levenEmoji: "",
         trigramResults: "",
         trigramEmoji: "",
+        jaroDistance: "",
+        JaroDistEmoji: "",
         jaroWinkResults: "",
         jaroWinkEmoji: ""
     }
@@ -29,18 +31,54 @@ class Evaluation extends React.Component {
       handleSubmit = event => {
         event.preventDefault()
         this.setState({
-            levenResults: levenshteinDistance(this.state.firstString, this.state.secondString),
-            trigramResults: trigramDistance(this.state.firstString, this.state.secondString),
-            jaroWinkResults: jaroWinklerDistance(this.state.firstString, this.state.secondString),
+            levenResults: (levenshteinDistance(this.state.firstString, this.state.secondString)).toFixed(4),
+            trigramResults: (trigramDistance(this.state.firstString, this.state.secondString)).toFixed(4),
+            jaroDistanceResults: ((jaroWinklerDistance(this.state.firstString, this.state.secondString))[0]).toFixed(4),
+            jaroWinkResults: ((jaroWinklerDistance(this.state.firstString, this.state.secondString))[1]).toFixed(4),
         })
         this.setState((state) => {
-          return {levenEmoji: state.levenResults > 0.7 ? '🙌': '😭'}
+          let emoji = state.levenEmoji;
+          if(state.levenResults >= 0.7){
+            emoji = '🙌';
+          } else if(state.levenResults >= 0.5){
+              emoji= '🤷‍♀'
+          } else {
+            emoji = '😭'
+          }
+          return {levenEmoji: emoji}
         })
         this.setState((state) => {
-          return {trigramEmoji: state.trigramResults > 0.7 ? '🙌': '😭'}
+          let emoji = state.trigramEmoji;
+          if(state.trigramResults >= 0.7){
+            emoji = '🙌';
+          } else if(state.trigramResults >= 0.5){
+              emoji= '🤷‍♀'
+          } else {
+            emoji = '😭'
+          }
+          return {trigramEmoji: emoji}
         })
         this.setState((state) => {
-          return {jaroWinkEmoji: state.jaroWinkResults > 0.7 ? '🙌': '😭'}
+          let emoji = state.JaroDistEmoji;
+          if(state.jaroDistanceResults >= 0.7){
+            emoji = '🙌';
+          } else if(state.jaroDistanceResults >= 0.5){
+              emoji= '🤷‍♀'
+          } else {
+            emoji = '😭'
+          }
+          return {JaroDistEmoji: emoji}
+        })
+        this.setState((state) => {
+          let emoji = state.jaroWinkEmoji;
+          if(state.jaroWinkResults >= 0.7){
+            emoji = '🙌';
+          } else if(state.jaroWinkResults >= 0.5){
+              emoji= '🤷‍♀'
+          } else {
+            emoji = '😭'
+          }
+          return {jaroWinkEmoji: emoji}
         })
       }
     render() {
@@ -72,6 +110,7 @@ class Evaluation extends React.Component {
             <h1>Results</h1>
             <p>Levenshtein Results: {this.state.levenResults} {this.state.levenEmoji}</p>
             <p>Trigram Results: {this.state.trigramResults} {this.state.trigramEmoji}</p>
+            <p>Jaro Distance Results: {this.state.jaroDistanceResults} {this.state.JaroDistEmoji}</p>
             <p>Jaro-Winkler Results: {this.state.jaroWinkResults} {this.state.jaroWinkEmoji}</p>
             <Link to="/">
                 <Button marginTop="35px">Go home</Button>
