@@ -4,8 +4,14 @@
 
 export default function jaroWinklerDistance (str1, str2) {
     let matchingChar = 0;
-    let transpositions;
-    let confidence;
+    // map used to enforce unique key of characters
+    let str1Map = new Map();
+    let transpositions = 0;
+    let confidence = 0;
+    let jaroDistance = 0;
+    let jaroWinkler = 0;
+    let constantFactor = 0.1;
+    let prefixLength = 0;
 
     // if both are empty, return confidence of 1 (match)
     if(str1.length === 0 && str2.length === 0){
@@ -17,57 +23,46 @@ export default function jaroWinklerDistance (str1, str2) {
     } else if(str1 === str2){
         confidence = 1;
     } else {
-        let str1Matches = new Array(str1.length);
-        let str2Matches = new Array(str2.length);
-        let range = (Math.floor(Math.max(str1.length, str2.length)/2)) -1;
-
-        for(let index = 0; index < str1.length; index++){
-            let low = (index >= range) ? index - range : 0;
-            let high = (index + range <= str2.length) ? (index + range) : (str2.length -1);
-
-            for (let index2 = low; index2 <= high; index2++){
-                if(str1Matches[index] !== true && str2Matches[index2] !== true && str1[index] === str2[index2]){
-                    ++matchingChar;
-                    str1Matches[index] = true;
-                    str2Matches[index2] = true;
-                    break;
+        for(let index1 = 0; index1 < str1.length; index1++){
+            // fill map and calculate transpositions
+            str1Map.set(str1.charAt(index1), 0);
+            if(index1+1 <= str2.length-1){
+                if(str1.charAt(index1) === str2.charAt(index1+1)){
+                    transpositions++;
+                }
+            } else if(index1-1 >= 0){
+                if(str1.charAt(index1) === str2.charAt(index1-1)){
+                    transpositions++;
                 }
             }
         }
-        // if no matches found
-        if(matchingChar === 0){
-            return 0;
-        }
-
-        let numTrans = 0;
-        let matchIndex = 0;
-
-        for(let index = 0; index < str1.length; index++){
-            if(str1Matches[index] === true){
-                for(let index2 = matchIndex; index2 < str2.length; index2++){
-                    if(str2Matches[index2] === true){
-                        matchIndex = index2 + 1;
-                        break;
-                    }
-                    if(str1[index] !== str2[index2]){
-                        ++numTrans;
-                    }
-                }
-
+        // count matches
+        for(let index2 = 0; index2 < str2.length; index2++){
+            if(str1Map.has(str2.charAt(index2))){
+                str1Map.set(str2.charAt(index2), (str1Map.get(str2.charAt(index2))+1));
             }
         }
-        let weight = ((matchingChar/str1.length) + (matchingChar/str2.length) + (matchingChar - (numTrans/2)) / matchingChar) / 3;
-        let prefixLength = 0;
-        let pConstant = 0.1;
 
-        if (weight > 0.7){
-            while (str1[prefixLength] === str2[prefixLength] && prefixLength < 4){
-                ++prefixLength;
-            }
-
-            weight = weight + prefixLength * pConstant * (1 - weight);
+        // total all matches identified in map
+        for(let value of str1Map.values()){
+            matchingChar += value;
         }
-        confidence = weight;
+
+        // get length of matching prefix (max of 4)
+        for(let prefixIndex = 0; prefixIndex < 4; prefixIndex++){
+            if(str1.charAt(prefixIndex) === str2.charAt(prefixIndex)){
+                prefixLength++;
+            } else {
+                break;
+            }
+        }
+        // 1/3((matches/s1length) + (matches/s2Length) + ((matches-transpositions)/matches))
+        jaroDistance = (1/3)*((matchingChar/str1.length) + (matchingChar/str2.length) + ((matchingChar-transpositions)/matchingChar))
+
+        // jaroDistance + ((prefixLength*constantFactor)*(1-jaroDistance))
+        jaroWinkler = jaroDistance + ((prefixLength*constantFactor)*(1-jaroDistance));
+
+        confidence = jaroWinkler;
     }
 
     return confidence;
