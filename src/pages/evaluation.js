@@ -12,8 +12,11 @@ class Evaluation extends React.Component {
         firstString: "",
         secondString: "",
         levenResults: "",
+        levenEmoji: "",
         trigramResults: "",
+        trigramEmoji: "",
         jaroWinkResults: "",
+        jaroWinkEmoji: ""
     }
     handleInputChange = event => {
         const target = event.target
@@ -28,7 +31,16 @@ class Evaluation extends React.Component {
         this.setState({
             levenResults: levenshteinDistance(this.state.firstString, this.state.secondString),
             trigramResults: trigramDistance(this.state.firstString, this.state.secondString),
-            jaroWinkResults: jaroWinklerDistance(this.state.firstString, this.state.secondString)
+            jaroWinkResults: jaroWinklerDistance(this.state.firstString, this.state.secondString),
+        })
+        this.setState((state) => {
+          return {levenEmoji: state.levenResults > 0.7 ? '🙌': '😭'}
+        })
+        this.setState((state) => {
+          return {trigramEmoji: state.trigramResults > 0.7 ? '🙌': '😭'}
+        })
+        this.setState((state) => {
+          return {jaroWinkEmoji: state.jaroWinkResults > 0.7 ? '🙌': '😭'}
         })
       }
     render() {
@@ -58,9 +70,9 @@ class Evaluation extends React.Component {
                 <button type='submit'>Evaluate</button>
             </form>
             <h1>Results</h1>
-            <p>Levenshtein Results: {this.state.levenResults}</p>
-            <p>Trigram Results: {this.state.trigramResults}</p>
-            <p>Jaro-Winkler Results: {this.state.jaroWinkResults}</p>
+            <p>Levenshtein Results: {this.state.levenResults} {this.state.levenEmoji}</p>
+            <p>Trigram Results: {this.state.trigramResults} {this.state.trigramEmoji}</p>
+            <p>Jaro-Winkler Results: {this.state.jaroWinkResults} {this.state.jaroWinkEmoji}</p>
             <Link to="/">
                 <Button marginTop="35px">Go home</Button>
             </Link>
