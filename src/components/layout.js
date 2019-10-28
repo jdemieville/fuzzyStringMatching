@@ -71,10 +71,13 @@ class Layout extends React.Component {
             © {new Date().getFullYear()}, Built with
             {` `}
             <a href="https://www.gatsbyjs.org">Gatsby</a>
-          </p>
-          <p>
             {` `}
-            {`People vector created by roserodionova at `}
+            by
+            {` `}
+            <a href="https://demieville-codes.herokuapp.com/portfolio">JDemieville</a>
+            <br></br>
+            {` `}
+            {`People vector created by roserodionova; icon by Freepik at `}
             <a href="https://www.freepik.com/free-photos-vectors/people">www.freepik.com</a>
           </p>
         </Footer>
