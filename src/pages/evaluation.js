@@ -7,6 +7,7 @@ import jaroWinklerDistance from "../logic/jaroWinklerDistance";
 import levenshteinDistance from "../logic/levenshteinDistance";
 import trigramDistance from "../logic/trigramDistance";
 import cosineSimilarity from '../logic/cosineSimilarity';
+import termFreqInvDocFreq from '../logic/termFreqInvDocFreq';
 
 class Evaluation extends React.Component {
     state = {
@@ -21,7 +22,9 @@ class Evaluation extends React.Component {
         jaroWinkResults: "",
         jaroWinkEmoji: "",
         cosResults: "",
-        cosEmoji: ""
+        cosEmoji: "",
+        tfidfResults: "",
+        tfidfEmoji: ""
     }
     handleInputChange = event => {
         const target = event.target
@@ -39,6 +42,7 @@ class Evaluation extends React.Component {
             jaroDistanceResults: ((jaroWinklerDistance(this.state.firstString, this.state.secondString))[0]).toFixed(4),
             jaroWinkResults: ((jaroWinklerDistance(this.state.firstString, this.state.secondString))[1]).toFixed(4),
             cosResults: (cosineSimilarity(this.state.firstString, this.state.secondString)).toFixed(4),
+            tfidfResults: (termFreqInvDocFreq(this.state.firstString, this.state.secondString)).toFixed(4),
         })
         this.setState((state) => {
           let emoji = state.levenEmoji;
@@ -95,6 +99,17 @@ class Evaluation extends React.Component {
           }
           return {cosEmoji: emoji};
         })
+        this.setState((state) => {
+          let emoji = state.tfidfEmoji;
+          if(state.tfidfResults >= 0.7){
+            emoji = '🙌';
+          } else if(state.tfidfResults >= 0.5){
+            emoji= '🤷‍♀';
+          } else {
+            emoji = '😭';
+          }
+          return {tfidfEmoji: emoji};
+        })
       }
     render() {
         return (
@@ -128,6 +143,7 @@ class Evaluation extends React.Component {
             <p>Jaro Distance Results: {this.state.jaroDistanceResults} {this.state.JaroDistEmoji}</p>
             <p>Jaro-Winkler Results: {this.state.jaroWinkResults} {this.state.jaroWinkEmoji}</p>
             <p>Cosine Similarity Results: {this.state.cosResults} {this.state.cosEmoji}</p>
+            <p>TFIDF Results: {this.state.tfidfResults} {this.state.tfidfEmoji}</p>
             <Link to="/">
                 <Button marginTop="35px">Go home</Button>
             </Link>
