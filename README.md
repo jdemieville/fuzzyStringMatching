@@ -27,3 +27,9 @@
 <p>
   This similarity calculation is a varient of the Jaro Distance created by William Winkler. It incorporates the length of similar characters in the prefix (up to 4) to more heavily factor similarity between strings with common prefixes.
 </p>
+<h2>
+  Cosine Similarity
+</h2>
+<p>
+  This algorithm is best suited for data with multiple words in each string input. The frequency for each word is calculated per input vector and stored in an array. The dot product is then calculated using these arrays which is then divided into the Euclidean norm of each input vector multiplied together. This cosine value represents at what angle the two input vectors relate to each other, the smaller the angle, the closer to a value of 1, indicating a close relationship between the two input vectors.
+</p>
