@@ -1,11 +1,11 @@
 import { all } from "q";
 
 export default function cosineSimilarity(str1, str2){
-    // map used to enforce unique word keys
-    let wordMap = new Map();
+    let cleanStr1 = str1.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+    let cleanStr2 = str2.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
     let allWords = [];
-    let words1 = str1.split(' ');
-    let words2 = str2.split(' ');
+    let words1 = cleanStr1.split(' ');
+    let words2 = cleanStr2.split(' ');
     let wordFreq1 = [];
     let wordFreq2 = [];
     let dotProduct = 0;
