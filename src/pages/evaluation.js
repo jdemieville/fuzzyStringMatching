@@ -6,6 +6,7 @@ import Button from "../components/button"
 import jaroWinklerDistance from "../logic/jaroWinklerDistance";
 import levenshteinDistance from "../logic/levenshteinDistance";
 import trigramDistance from "../logic/trigramDistance";
+import cosineSimilarity from '../logic/cosineSimilarity';
 
 class Evaluation extends React.Component {
     state = {
@@ -18,7 +19,9 @@ class Evaluation extends React.Component {
         jaroDistance: "",
         JaroDistEmoji: "",
         jaroWinkResults: "",
-        jaroWinkEmoji: ""
+        jaroWinkEmoji: "",
+        cosResults: "",
+        cosEmoji: ""
     }
     handleInputChange = event => {
         const target = event.target
@@ -35,15 +38,16 @@ class Evaluation extends React.Component {
             trigramResults: (trigramDistance(this.state.firstString, this.state.secondString)).toFixed(4),
             jaroDistanceResults: ((jaroWinklerDistance(this.state.firstString, this.state.secondString))[0]).toFixed(4),
             jaroWinkResults: ((jaroWinklerDistance(this.state.firstString, this.state.secondString))[1]).toFixed(4),
+            cosResults: (cosineSimilarity(this.state.firstString, this.state.secondString)).toFixed(4),
         })
         this.setState((state) => {
           let emoji = state.levenEmoji;
           if(state.levenResults >= 0.7){
             emoji = '🙌';
           } else if(state.levenResults >= 0.5){
-              emoji= '🤷‍♀'
+              emoji= '🤷‍♀';
           } else {
-            emoji = '😭'
+            emoji = '😭';
           }
           return {levenEmoji: emoji}
         })
@@ -52,9 +56,9 @@ class Evaluation extends React.Component {
           if(state.trigramResults >= 0.7){
             emoji = '🙌';
           } else if(state.trigramResults >= 0.5){
-              emoji= '🤷‍♀'
+              emoji= '🤷‍♀';
           } else {
-            emoji = '😭'
+            emoji = '😭';
           }
           return {trigramEmoji: emoji}
         })
@@ -63,9 +67,9 @@ class Evaluation extends React.Component {
           if(state.jaroDistanceResults >= 0.7){
             emoji = '🙌';
           } else if(state.jaroDistanceResults >= 0.5){
-              emoji= '🤷‍♀'
+              emoji= '🤷‍♀';
           } else {
-            emoji = '😭'
+            emoji = '😭';
           }
           return {JaroDistEmoji: emoji}
         })
@@ -74,11 +78,22 @@ class Evaluation extends React.Component {
           if(state.jaroWinkResults >= 0.7){
             emoji = '🙌';
           } else if(state.jaroWinkResults >= 0.5){
-              emoji= '🤷‍♀'
+              emoji= '🤷‍♀';
           } else {
-            emoji = '😭'
+            emoji = '😭';
           }
-          return {jaroWinkEmoji: emoji}
+          return {jaroWinkEmoji: emoji};
+        })
+        this.setState((state) => {
+          let emoji = state.cosEmoji;
+          if(state.cosResults >= 0.7){
+            emoji = '🙌';
+          } else if(state.cosResults >= 0.5){
+            emoji= '🤷‍♀';
+          } else {
+            emoji = '😭';
+          }
+          return {cosEmoji: emoji};
         })
       }
     render() {
@@ -112,6 +127,7 @@ class Evaluation extends React.Component {
             <p>Trigram Results: {this.state.trigramResults} {this.state.trigramEmoji}</p>
             <p>Jaro Distance Results: {this.state.jaroDistanceResults} {this.state.JaroDistEmoji}</p>
             <p>Jaro-Winkler Results: {this.state.jaroWinkResults} {this.state.jaroWinkEmoji}</p>
+            <p>Cosine Similarity Results: {this.state.cosResults} {this.state.cosEmoji}</p>
             <Link to="/">
                 <Button marginTop="35px">Go home</Button>
             </Link>
